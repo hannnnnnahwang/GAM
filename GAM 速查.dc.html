@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box}
+    body{margin:0;background:#F1F3F4;font-family:"Roboto","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;-webkit-font-smoothing:antialiased;color:#202124}
+    button{font-family:inherit}
+    input{font-family:inherit}
+    @keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  </style>
+</helmet>
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" rx="20" fill="#1A73E8"></rect>
+    <rect x="30" y="34" width="7" height="32" rx="3.5" fill="#fff" transform="skewX(-12)"></rect>
+    <rect x="44" y="34" width="7" height="32" rx="3.5" fill="#fff" transform="skewX(-12)"></rect>
+    <rect x="58" y="46" width="7" height="20" rx="3.5" fill="#fff" transform="skewX(-12)"></rect>
+  </svg>
+</template>
+<div style="min-height:100vh;background:#F1F3F4;display:flex;justify-content:center">
+  <div style="{{ shellStyle }}">
+
+    <div style="position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid #E8EAED">
+      <div style="{{ headRowStyle }}">
+        <div style="width:26px;height:26px;position:relative;flex:0 0 auto">
+          <i style="position:absolute;width:6px;border-radius:4px;top:2px;bottom:2px;left:2px;background:#4285F4;transform:skewX(-12deg)"></i>
+          <i style="position:absolute;width:6px;border-radius:4px;top:2px;bottom:2px;left:10px;background:#34A853;transform:skewX(-12deg)"></i>
+          <i style="position:absolute;width:6px;border-radius:4px;height:11px;bottom:3px;left:18px;background:#FBBC04;transform:skewX(-12deg)"></i>
+        </div>
+        <div style="flex:1;min-width:0;font-size:1.1rem;font-weight:700">GAM 後台導覽</div>
+      </div>
+      <div style="{{ tabRowStyle }}">
+        <button onClick="{{ onTasks }}" style="{{ pillTasks }}">操作指南</button>
+        <button onClick="{{ onBackend }}" style="{{ pillBackend }}">介面總覽</button>
+        <button onClick="{{ onArena }}" style="{{ pillArena }}">競價順序</button>
+        <button onClick="{{ onGloss }}" style="{{ pillGloss }}">名詞解釋</button>
+      </div>
+    </div>
+
+    <div style="{{ contentPadStyle }}">
+     <div style="{{ contentWrapStyle }}">
+
+      <sc-if value="{{ isTasks }}" hint-placeholder-val="{{ true }}">
+        <sc-if value="{{ showMetaphor }}" hint-placeholder-val="{{ true }}">
+          <div style="background:#E8F0FE;border:1px solid #D2E3FC;border-radius:14px;padding:14px 16px;margin-bottom:18px;display:flex;gap:11px">
+            <span style="font-size:1.3rem;line-height:1;flex:0 0 auto">🏪</span>
+            <p style="margin:0;font-size:.92rem;color:#3C4043;line-height:1.6">把你的網站想成一間店，牆上有很多能出租的<b style="font-weight:600">廣告位置</b>；GAM 就是幫你管位置、決定每格放誰、還幫你算錢的店長。</p>
+          </div>
+        </sc-if>
+        <h2 style="margin:2px 2px 6px;font-family:'Noto Sans TC';font-weight:900;font-size:1.45rem">我想做什麼？</h2>
+        <p style="margin:0 2px 16px;color:#5F6368;font-size:.9rem;line-height:1.55">點任務展開步驟。藍點是<b style="font-weight:600;color:#1A73E8">選單名稱</b>，點它看那是做什麼的。</p>
+        <sc-for list="{{ groupsView }}" as="grp" hint-placeholder-count="5">
+          <div style="margin-bottom:22px">
+          <div style="{{ grp.headWrapStyle }}">
+            <div style="{{ grp.titleStyle }}">{{ grp.title }}</div>
+            <div style="color:#5F6368;font-size:.82rem;margin-top:2px;line-height:1.5">{{ grp.desc }}</div>
+          </div>
+          <sc-for list="{{ grp.tasks }}" as="task" hint-placeholder-count="3">
+          <div style="background:#fff;border:1px solid #E0E0E0;border-radius:16px;margin-bottom:12px;overflow:hidden">
+            <button onClick="{{ task.onToggle }}" style="display:flex;align-items:center;gap:12px;padding:16px 18px;width:100%;border:none;background:none;text-align:left;cursor:pointer">
+              <div style="flex:1;min-width:0">
+                <div style="font-weight:700;font-size:1.05rem;line-height:1.25">{{ task.title }}</div>
+                <div style="color:#5F6368;font-size:.88rem;margin-top:3px">{{ task.sub }}</div>
+              </div>
+              <svg style="{{ task.chevStyle }}" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"></path></svg>
+            </button>
+            <div style="{{ task.bodyStyle }}">
+              <div style="padding:4px 18px 8px">
+                <sc-for list="{{ task.steps }}" as="step" hint-placeholder-count="3">
+                  <div style="display:flex;gap:12px">
+                    <div style="display:flex;flex-direction:column;align-items:center;width:28px;flex:0 0 auto">
+                      <div style="{{ step.numStyle }}">{{ step.n }}</div>
+                      <sc-if value="{{ step.showLine }}" hint-placeholder-val="{{ true }}"><div style="width:2px;flex:1;background:#E8EAED;min-height:8px"></div></sc-if>
+                    </div>
+                    <div style="flex:1;padding-bottom:16px">
+                      <button onClick="{{ step.onMenu }}" style="{{ step.chipStyle }}"><span style="{{ step.dotStyle }}"></span>{{ step.label }}<span style="opacity:.5;font-size:.82rem;margin-left:1px">ⓘ</span></button>
+                      <p style="margin:8px 0 0;color:#3C4043;font-size:.92rem;line-height:1.55">{{ step.w }}</p>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+          </sc-for>
+          </div>
+        </sc-for>
+      </sc-if>
+
+      <sc-if value="{{ isBackend }}" hint-placeholder-val="{{ false }}">
+        <h2 style="margin:2px 2px 6px;font-family:'Noto Sans TC';font-weight:900;font-size:1.45rem">後台介面總覽</h2>
+        <p style="margin:0 2px 16px;color:#5F6368;font-size:.9rem;line-height:1.55">照真實後台的選單走一遍，把名詞對到「它在後台哪裡」。左邊選單，右邊看畫面和說明。</p>
+        <div style="{{ backGridStyle }}">
+          <sc-if value="{{ backShowList }}" hint-placeholder-val="{{ true }}">
+            <div style="{{ sidebarStyle }}">
+              <sc-for list="{{ backItems }}" as="it" hint-placeholder-count="8">
+                <button onClick="{{ it.onSelect }}" style="{{ it.rowStyle }}"><span style="{{ it.dotStyle }}"></span><span style="flex:1;text-align:left">{{ it.zh }}</span><span style="{{ it.enStyle }}">{{ it.en }}</span></button>
+              </sc-for>
+            </div>
+          </sc-if>
+          <sc-if value="{{ backShowDetail }}" hint-placeholder-val="{{ false }}">
+            <div style="min-width:0">
+              <sc-if value="{{ backOnMobile }}" hint-placeholder-val="{{ false }}">
+                <button onClick="{{ onBackToList }}" style="display:inline-flex;align-items:center;gap:6px;border:none;background:none;color:#1A73E8;font-weight:600;font-size:.9rem;cursor:pointer;padding:4px 0;margin-bottom:8px">← 所有選單</button>
+              </sc-if>
+
+              <sc-if value="{{ backDetail.isMenu }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+                  <span style="{{ backDetail.dotStyle }}"></span>
+                  <h3 style="margin:0;font-size:1.15rem;font-weight:700">{{ backDetail.zh }} <span style="color:#5F6368;font-weight:400;font-size:.8rem">{{ backDetail.en }}</span></h3>
+                </div>
+                <p style="margin:0 0 16px;color:#5F6368;font-size:.92rem;line-height:1.6">{{ backDetail.one }}</p>
+                <div style="margin-bottom:20px">{{ backDetail.screenEl }}</div>
+                <div style="font-size:.8rem;font-weight:700;color:#3C4043;margin:0 0 10px">這個選單裡有什麼</div>
+                <sc-for list="{{ backDetail.subs }}" as="s" hint-placeholder-count="5">
+                  <div style="background:#fff;border:1px solid #E8EAED;border-radius:12px;padding:13px 15px;margin-bottom:9px">
+                    <div style="font-weight:600;font-size:.96rem">{{ s.zh }} <span style="color:#1A73E8;font-weight:400;font-size:.74rem;margin-left:4px">{{ s.en }}</span></div>
+                    <p style="margin:4px 0 0;color:#3C4043;font-size:.9rem;line-height:1.55">{{ s.d }}</p>
+                  </div>
+                </sc-for>
+              </sc-if>
+            </div>
+          </sc-if>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isArena }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;align-items:center;gap:8px;margin:2px 2px 6px"><span style="font-size:1.5rem">🥊</span><h2 style="margin:0;font-family:'Noto Sans TC';font-weight:900;font-size:1.45rem">誰在搶我的廣告位置？</h2></div>
+        <p style="margin:0 2px 18px;color:#5F6368;font-size:.9rem;line-height:1.6">同一個位置很多人在搶。系統照下面的順序決定放誰——上面的優先，越下面越靠出價高低。這就是整個競價的對手。</p>
+        <div style="background:#fff;border:1px solid #E0E0E0;border-radius:16px;padding:18px 18px 4px">
+          <sc-for list="{{ stack }}" as="tier" hint-placeholder-count="4">
+            <div style="display:flex;gap:12px">
+              <div style="display:flex;flex-direction:column;align-items:center;width:30px;flex:0 0 auto">
+                <div style="{{ tier.rankStyle }}">{{ tier.rank }}</div>
+                <sc-if value="{{ tier.showLine }}" hint-placeholder-val="{{ true }}"><div style="width:2px;flex:1;background:#E8EAED;min-height:10px"></div></sc-if>
+              </div>
+              <div style="flex:1;padding-bottom:18px;min-width:0">
+                <div style="font-weight:700;font-size:1.05rem">{{ tier.title }} <span style="color:#5F6368;font-weight:400;font-size:.8rem">{{ tier.en }}</span></div>
+                <p style="margin:3px 0 8px;color:#3C4043;font-size:.92rem;line-height:1.55">{{ tier.desc }}</p>
+                <div style="display:flex;flex-wrap:wrap;gap:6px">
+                  <sc-for list="{{ tier.tags }}" as="tg" hint-placeholder-count="3"><span style="{{ tg.style }}">{{ tg.label }}</span></sc-for>
+                </div>
+              </div>
+            </div>
+          </sc-for>
+          <div style="background:#FEF7E0;border:1px solid #F6E0A8;border-radius:12px;padding:16px 18px;margin:4px 0 16px">
+            <div style="font-size:.72rem;letter-spacing:.06em;color:#B06000;font-weight:700;margin-bottom:6px">關鍵一招：動態分配</div>
+            <p style="margin:0;color:#6B4E16;font-size:.92rem;line-height:1.6">系統會把「競標的即時出價」拿去跟「保證型的價值」比一比，誰讓你賺更多就放誰——所以出價夠高的公開競價，有時也能贏過保證型。</p>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isGloss }}" hint-placeholder-val="{{ false }}">
+        <h2 style="margin:2px 2px 4px;font-family:'Noto Sans TC';font-weight:900;font-size:1.45rem">名詞白話</h2>
+        <p style="margin:0 2px 16px;color:#5F6368;font-size:.9rem">聽不懂的廣告術語，一句白話講清楚。</p>
+        <div style="position:relative;margin-bottom:14px">
+          <input value="{{ query }}" onInput="{{ onQuery }}" placeholder="搜尋名詞…（例如 eCPM、保量、PMP）" style="width:100%;padding:13px 40px 13px 16px;border:1px solid #DADCE0;border-radius:12px;font-size:1rem;background:#fff;outline:none">
+          <sc-if value="{{ hasQuery }}" hint-placeholder-val="{{ false }}"><button onClick="{{ clearQuery }}" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);border:none;background:none;cursor:pointer;color:#5F6368;font-size:1.05rem;padding:8px">✕</button></sc-if>
+        </div>
+        <div style="{{ glossGridStyle }}">
+          <sc-for list="{{ termsView }}" as="t" hint-placeholder-count="10">
+            <div style="background:#fff;border:1px solid #E8EAED;border-radius:12px;padding:14px 16px">
+              <div style="font-weight:700;font-size:1rem;color:#1557b0">{{ t.k }}</div>
+              <p style="margin:5px 0 0;color:#3C4043;font-size:.9rem;line-height:1.6">{{ t.d }}</p>
+            </div>
+          </sc-for>
+        </div>
+        <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}"><div style="text-align:center;color:#5F6368;padding:30px 10px;font-size:.95rem">找不到「{{ query }}」，換個關鍵字試試。</div></sc-if>
+      </sc-if>
+
+     </div>
+    </div>
+
+    <sc-if value="{{ sheetOpen }}" hint-placeholder-val="{{ false }}">
+      <div onClick="{{ closeSheet }}" style="position:fixed;inset:0;background:rgba(32,33,36,.45);z-index:40;animation:fadeIn .2s"></div>
+      <div style="{{ sheetStyle }}">
+        <div style="width:40px;height:4px;border-radius:2px;background:#DADCE0;margin:8px auto 18px"></div>
+        <div style="display:flex;align-items:center;gap:11px;margin-bottom:12px">
+          <span style="{{ sheet.dotStyle }}"></span>
+          <div><div style="font-weight:700;font-size:1.2rem;line-height:1.1">{{ sheet.zh }}</div><div style="font-size:.75rem;color:#5F6368;margin-top:2px">{{ sheet.en }}</div></div>
+        </div>
+        <p style="margin:0;color:#3C4043;font-size:1rem;line-height:1.65">{{ sheet.one }}</p>
+        <button onClick="{{ closeSheet }}" style="margin-top:22px;width:100%;padding:13px;border:none;border-radius:12px;background:#F1F3F4;font-weight:600;font-size:.95rem;cursor:pointer;color:#3C4043">知道了</button>
+      </div>
+    </sc-if>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;: {&quot;width&quot;: 1180, &quot;height&quot;: 860},
+  &quot;accent&quot;: {&quot;editor&quot;: &quot;color&quot;, &quot;default&quot;: &quot;#1A73E8&quot;, &quot;options&quot;: [&quot;#1A73E8&quot;, &quot;#188038&quot;, &quot;#9334E6&quot;, &quot;#B06000&quot;], &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;外觀&quot;},
+  &quot;showMetaphor&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;外觀&quot;}
+}">
+class Component extends DCLogic {
+  chipColors = { g:{bg:'#E6F4EA',c:'#0d652d'}, a:{bg:'#FEF7E0',c:'#B06000'}, b:{bg:'#E8F0FE',c:'#1557b0'}, x:{bg:'#F1F3F4',c:'#5F6368'} };
+
+  menus = [
+    {id:'delivery', zh:'廣告放送', en:'Delivery', c:'#1A73E8', one:'有人買了廣告，就在這裡把它擺上去、確認有正常出現。', screen:'delivery', subs:[
+      {zh:'訂單', en:'Orders', d:'一筆廣告合作的資料夾——哪個客戶、公司裡誰負責。'},
+      {zh:'訂單項目', en:'Line items', d:'實際怎麼投的設定，也是系統決定放不放的最小單位。這裡選「怎麼賣」：保證型（包檔／保量）、程式化保證(PG)、優先交易、私人競價、開放競價。'},
+      {zh:'廣告素材', en:'Creatives', d:'觀眾真正看到的那張圖或影片。'},
+      {zh:'交易', en:'Deals', d:'跟指定買家談好的自動買賣。PG、優先交易、PMP 都在這裡開。'},
+      {zh:'原生樣式', en:'Native styles', d:'讓廣告長得跟文章融在一起的版型設定。'},
+      {zh:'預測', en:'Forecasting', d:'接單前先估這個位置未來大概有多少人會看到——答應保量前一定要看。'},
+      {zh:'放送工具', en:'Delivery tools', d:'廣告沒出現時，用它查為什麼沒放出來。'}
+    ]},
+    {id:'inventory', zh:'廣告空間', en:'Inventory', c:'#4285F4', one:'整理你有哪些廣告位置可以賣。要先有位置，才有得賣。', screen:'inventory', subs:[
+      {zh:'廣告單元', en:'Ad units', d:'網站上一個廣告位置。設好會產生一段程式碼(GPT)貼到網站上，廣告才會出現。'},
+      {zh:'刊登位置', en:'Placements', d:'把好幾個位置打包成一組，方便一次賣或一起設定。'},
+      {zh:'產量群組', en:'Yield groups', d:'讓多個外部買家同時競價(Open Bidding)，把價格抬高。'},
+      {zh:'廣告空間規則', en:'Inventory rules', d:'某些位置能不能放某類廣告、影片能播多久等規則；也在這開放公開競價。'},
+      {zh:'統一定價規則', en:'Unified pricing rules', d:'設競價的「底價」：低於這個價就不賣，保護收益、避免被賤賣。'},
+      {zh:'聯播網設定', en:'Network settings', d:'整個網站的共用預設值，也在這接聯播網的需求。'}
+    ]},
+    {id:'signals', zh:'信號', en:'Signals', c:'#7B61FF', one:'記錄「看廣告的是什麼樣的人」，廣告就能更準、也賣得更貴。', screen:'signals', subs:[
+      {zh:'鍵值', en:'Key-values', d:'幫每個位置貼標籤（例如這是體育版），廣告就能挑對地方出現。'},
+      {zh:'目標對象區隔', en:'Audience segments', d:'把某一群讀者整理出來（例如常看財經的人），拿來精準投放或賣給客戶。'},
+      {zh:'安全信號', en:'Secure signals', d:'把「觀眾大概是誰」的線索安全地告訴買家，讓他們願意出更高價。'},
+      {zh:'發布商提供的信號', en:'PPS', d:'用大家都懂的分類告訴買家「這裡的讀者是哪種人」。'},
+      {zh:'需求管道設定', en:'Demand channels', d:'決定要把這些線索分享給哪些買家。'}
+    ]},
+    {id:'safety', zh:'品牌安全', en:'Brand safety', c:'#B06000', one:'像門口的保全，決定哪些廣告不准出現。', screen:'safety', subs:[
+      {zh:'廣告內容', en:'Ad content', d:'把某些類別、某些公司的廣告直接擋掉。'},
+      {zh:'競爭', en:'Competition', d:'避免兩個競爭對手的廣告同時出現在同一頁。'},
+      {zh:'廣告空間排除', en:'Inventory exclusion', d:'指定某些位置不要出現某類廣告（例如親子版不放賭博）。'},
+      {zh:'人工素材審查', en:'Manual review', d:'廣告上線前先人工看過、通過才放（外部競價來的尤其要把關）。'},
+      {zh:'隱私與訊息', en:'Privacy & messaging', d:'對讀者顯示「同意使用 cookie」的視窗，符合各地隱私法規。'}
+    ]},
+    {id:'reports', zh:'報表', en:'Reports', c:'#188038', one:'你的帳本——看到底賺多少、哪裡賺最多。用工作區分主題整理。', screen:'reports', subs:[
+      {zh:'總覽', en:'Overview', d:'自己組一頁常看的數字，一打開就看到重點。'},
+      {zh:'廣告放送', en:'Delivery', d:'每筆廣告投得好不好、有沒有投完。'},
+      {zh:'廣告主', en:'Advertisers', d:'依客戶看各自賺多少、表現如何。'},
+      {zh:'收益夥伴', en:'Yield partners', d:'比較各個幫你賣廣告的夥伴（含聯播網、競價來源），誰帶進的錢比較多。'},
+      {zh:'廣告速度', en:'Ad speed', d:'廣告載入快不快，太慢會讓讀者不爽、也少賺。'},
+      {zh:'每月收益摘要', en:'Monthly earnings', d:'這個月總共賺多少，最適合交給主管。'}
+    ]},
+    {id:'mcm', zh:'多重客戶管理', en:'MCM', c:'#9334E6', one:'幫別人的網站一起管廣告、分錢。', screen:'mcm', subs:[
+      {zh:'管理庫存', en:'Manage Inventory', d:'直接幫別人的網站管廣告位置和投放。'},
+      {zh:'管理帳戶', en:'Manage Account', d:'對方把整攤交給你管，他自己不用動手。'},
+      {zh:'付款', en:'Payments', d:'看每個合作網站各分到多少錢。'}
+    ]},
+    {id:'admin', zh:'管理', en:'Admin', c:'#5F6368', one:'設定誰能登入、誰能改東西。', screen:'admin', subs:[
+      {zh:'使用者', en:'Users', d:'誰可以登入這個系統。'},
+      {zh:'角色', en:'Roles', d:'每個人能看、能改的範圍（業務和工程看到的不一樣）。'},
+      {zh:'團隊', en:'Teams', d:'讓每個人只看到自己負責的客戶。'},
+      {zh:'公司', en:'Companies', d:'客戶、代理商的基本資料。'},
+      {zh:'已連結的帳戶', en:'Linked accounts', d:'跟其他 Google 服務串在一起。'},
+      {zh:'全域設定', en:'Global settings', d:'影響整個網站的總開關。'}
+    ]}
+  ];
+
+  screens = {
+    delivery:{ title:'訂單', btn:'＋ 新增訂單', grid:'1.7fr 1fr .9fr 1fr .7fr', cols:['訂單名稱','客戶','狀態','投放進度','結束日'], rows:[
+      [{l:'夏季運動品牌檔'},'Nike',{c:'投放中',k:'g'},{p:68},'07-31'],
+      [{l:'PG · momo 保量檔'},'momo',{c:'保證型',k:'b'},{p:82},'08-20'],
+      [{l:'財經專題冠名'},'國泰金控',{c:'投放中',k:'g'},{p:45},'08-15'],
+      [{l:'新車上市曝光'},'Toyota',{c:'準備中',k:'a'},{p:0},'08-01']
+    ]},
+    inventory:{ title:'廣告位置', btn:'＋ 新增位置', grid:'1.8fr 1fr 1fr .9fr', cols:['位置名稱','大小','類型','狀態'], rows:[
+      [{l:'首頁_頂部大版位'},'970×250','橫幅',{c:'使用中',k:'g'}],
+      [{l:'文章頁_內文中'},'300×250','方形',{c:'使用中',k:'g'}],
+      [{l:'體育_右側欄'},'300×600','直式',{c:'使用中',k:'g'}],
+      [{l:'影音_前面插播'},'640×360','影片',{c:'使用中',k:'g'}]
+    ]},
+    signals:{ title:'讀者群組', btn:'＋ 建立群組', grid:'1.7fr 1fr 1fr 1fr', cols:['群組名稱','資料來源','分法','大約人數'], rows:[
+      [{l:'已登入的財經讀者'},'自家會員','看的內容','128,400'],
+      [{l:'常看體育的人'},'自家會員','看的內容','342,900'],
+      [{l:'最近想買東西的人'},'自家會員','興趣','96,120']
+    ]},
+    safety:{ title:'擋廣告的規則', btn:'＋ 新增規則', grid:'1.6fr 1fr 1fr .9fr', cols:['規則名稱','做什麼','範圍','狀態'], rows:[
+      [{l:'擋掉賭博／成人'},'擋類別','全站',{c:'開啟',k:'g'}],
+      [{l:'電信對手不同頁'},'避免撞一起','電信版位',{c:'開啟',k:'g'}],
+      [{l:'政治廣告先人工看'},'人工審查','全站',{c:'開啟',k:'g'}]
+    ]},
+    mcm:{ title:'合作網站', btn:'＋ 邀請網站', grid:'1.5fr .9fr 1fr 1fr', cols:['合作網站','狀態','本月曝光','本月分潤'], rows:[
+      [{l:'合作生活誌'},{c:'已加入',k:'g'},'240 萬','NT$ 86,000'],
+      [{l:'地方新聞網'},{c:'已加入',k:'g'},'110 萬','NT$ 39,500'],
+      [{l:'美食部落格'},{c:'邀請中',k:'a'},'—','—']
+    ]},
+    admin:{ title:'使用者', btn:'＋ 新增使用者', grid:'1fr 1.4fr .9fr .9fr', cols:['姓名','Email','能做什麼','負責'], rows:[
+      ['王小明','ming@demo.tw','改廣告','體育組'],
+      ['李美華','mei@demo.tw','跑業務','品牌組'],
+      ['陳大文','wen@demo.tw','全部','—']
+    ]}
+  };
+
+  stack = [
+    {rank:'1', title:'保證型直售', en:'Guaranteed', desc:'事先答應好的檔次，系統最優先滿足。包含包檔／贊助、保量，以及用自動化談成的程式化保證(PG)。', color:'#1A73E8', tags:['包檔／贊助','保量','程式化保證 PG']},
+    {rank:'2', title:'優先交易', en:'Preferred Deals', desc:'給特定買家一個談好的固定價，讓他「優先看貨、先出手」，但不一定要買。', color:'#7B61FF', tags:['優先交易','優先查看 First Look']},
+    {rank:'3', title:'私人競價', en:'Private Auction · PMP', desc:'只邀請的少數買家，用競標的方式出價搶這個位置。', color:'#9334E6', tags:['PMP 私人競價']},
+    {rank:'4', title:'公開競價', en:'Open Auction', desc:'誰都能參加、價高者得的即時競標。Ad Exchange 公開競價、Open Bidding、聯播網都在這一層一起搶。', color:'#188038', tags:['Ad Exchange','Open Bidding','聯播網']}
+  ];
+
+  tasks = [
+    {tag:'常用', title:'上一檔新廣告', sub:'有人買了廣告，怎麼讓它出現在網站上？', steps:[
+      {m:'inventory', label:'廣告空間', w:'先確認客戶要的位置有沒有、大小對不對，沒有就先建一個。'},
+      {m:'delivery', label:'廣告放送', w:'開一個訂單，設定要投哪、投多少、多少錢，再放上廣告圖。'},
+      {m:'delivery', label:'廣告放送 · 預測', w:'用預測確認這個位置有夠多人會看到，免得答應了卻投不完。'},
+      {m:'reports', label:'報表', w:'上線後，回這裡看它表現好不好。'}
+    ]},
+    {tag:'直售', title:'談一筆保量的直售檔（包檔／保量）', sub:'客戶要求「一定要讓 X 萬人看到」', steps:[
+      {m:'inventory', label:'廣告空間', w:'先確認要投放的位置存在、大小正確。'},
+      {m:'delivery', label:'廣告放送 · 預測', w:'先估這個位置未來有多少量，確定「保得住」再答應。'},
+      {m:'delivery', label:'廣告放送 · 訂單項目', w:'開一個「保證型」訂單項目，設定要保多少量、多少錢——這是最優先的一層。'},
+      {m:'delivery', label:'廣告放送 · 廣告素材', w:'放上客戶的廣告圖。'}
+    ]},
+    {tag:'程式化', title:'設定程式化保證（PG）交易', sub:'保量，但走自動化流程跟指定買家成交', steps:[
+      {m:'delivery', label:'廣告放送 · 交易', w:'開一筆 PG 交易，跟指定買家把「量」和「價」都先講定。'},
+      {m:'delivery', label:'廣告放送 · 訂單項目', w:'系統會產生對應的保證型項目，確認投放設定。'},
+      {m:'reports', label:'報表 · 收益夥伴', w:'看這筆 PG 交易實際帶進多少錢。'}
+    ]},
+    {tag:'程式化', title:'設定 PMP／優先交易', sub:'只找特定買家私下競價或優先看貨', steps:[
+      {m:'delivery', label:'廣告放送 · 交易', w:'開「私人競價(PMP)」或「優先交易」，只邀請特定買家。'},
+      {m:'signals', label:'信號 · 發布商提供的信號', w:'讓被邀請的買家看懂你的讀者是誰，願意出更高價。'},
+      {m:'reports', label:'報表 · 收益夥伴', w:'看這筆交易成交的價格與金額。'}
+    ]},
+    {tag:'競價', title:'設定公開競價（Ad Exchange）', sub:'讓誰都能出價、價高者得，把空位賣掉', steps:[
+      {m:'inventory', label:'廣告空間 · 廣告單元', w:'先確認要開放競價的位置都建好了——沒有位置，就沒東西可拿出來賣。'},
+      {m:'inventory', label:'廣告空間 · 廣告空間規則', w:'把這些位置開放參加 Ad Exchange 公開競價，讓外部買家都能出價。'},
+      {m:'inventory', label:'廣告空間 · 統一定價規則', w:'設「底價」：低於這個價就不賣，保護收益、避免被賤賣。'},
+      {m:'safety', label:'品牌安全 · 廣告內容', w:'先擋掉不想要的類別、廣告主，競價來的廣告才不會出包。'},
+      {m:'reports', label:'報表 · 收益夥伴', w:'上線後看公開競價帶進多少錢、平均每千次(eCPM)賺多少。'}
+    ]},
+    {tag:'競價', title:'接入聯播網（Ad Network）一起搶', sub:'把外部聯播網當成一個買家，加進來競價', steps:[
+      {m:'admin', label:'管理 · 公司', w:'先把這個聯播網建成一間「公司」，類型選聯播網，之後才好指定它。'},
+      {m:'inventory', label:'廣告空間 · 產量群組', w:'建一個產量群組，放進要賣的位置，再把這個聯播網加為競價夥伴(Open Bidding)。'},
+      {m:'signals', label:'信號 · 發布商提供的信號', w:'讓聯播網看懂你的讀者是誰，願意出更高的價。'},
+      {m:'safety', label:'品牌安全', w:'聯播網來的廣告也要把關：擋掉不該出現的類別、避免競品同頁。'},
+      {m:'reports', label:'報表 · 收益夥伴', w:'比較這個聯播網跟其他來源，誰帶進最多錢，留下最會賺的。'}
+    ]},
+    {tag:'觀念', title:'搞懂誰在搶我的廣告位置', sub:'保量、PMP、公開競價的先後順序', steps:[
+      {m:'delivery', label:'廣告放送 · 訂單項目', w:'在這裡選一筆廣告「怎麼賣」：保證型、優先交易、私人競價、開放競價。'},
+      {m:'backend-overview', label:'競價順序', w:'點上面的「競價順序」分頁，看整個競價順序圖，一次搞懂誰先誰後。'},
+      {m:'reports', label:'報表 · 收益夥伴', w:'用報表比較各層帶進多少錢，決定怎麼搭配最賺。'}
+    ]},
+    {tag:'排查', title:'廣告怎麼沒出現？', sub:'位置空空的、客戶說沒看到廣告', steps:[
+      {m:'delivery', label:'廣告放送 · 放送工具', w:'先用放送工具查那一次為什麼沒放出廣告。'},
+      {m:'inventory', label:'廣告空間', w:'確認那個位置的程式碼有正確貼好、位置還活著。'},
+      {m:'safety', label:'品牌安全', w:'看是不是被某條「擋廣告」的規則擋掉了。'}
+    ]},
+    {tag:'報表', title:'月底交報表', sub:'主管想看這個月賺多少', steps:[
+      {m:'reports', label:'報表 · 每月收益摘要', w:'用「每月收益摘要」看這個月總共賺多少。'},
+      {m:'reports', label:'報表 · 收益夥伴', w:'用「收益夥伴」比較哪個夥伴（含競價來源）帶進最多錢。'}
+    ]},
+    {tag:'把關', title:'擋掉不想要的廣告', sub:'客戶要求同頁沒有競品；想擋賭博類', steps:[
+      {m:'safety', label:'品牌安全 · 競爭', w:'用競爭規則，不讓同行廣告擠在同一頁。'},
+      {m:'safety', label:'品牌安全 · 廣告內容', w:'用廣告內容把賭博、成人這類直接整批擋掉。'}
+    ]},
+    {tag:'資料', title:'把一群讀者賣給客戶', sub:'想把某一群人整理成一包來賣', steps:[
+      {m:'signals', label:'信號 · 目標對象區隔', w:'把某一群讀者整理出來（例如常看財經又有登入的人）。'},
+      {m:'signals', label:'信號 · 發布商提供的信號', w:'讓買家看懂這群人是誰、值多少錢。'},
+      {m:'delivery', label:'廣告放送', w:'開廣告時，把這群人設成投放對象。'}
+    ]},
+    {tag:'權限', title:'幫新同事開帳號', sub:'新人來了，要能登入使用', steps:[
+      {m:'admin', label:'管理 · 使用者', w:'幫他開一個帳號。'},
+      {m:'admin', label:'管理 · 角色', w:'設定他能做什麼（例如只能改廣告、不能碰錢）。'},
+      {m:'admin', label:'管理 · 團隊', w:'讓他只看到自己負責的客戶。'}
+    ]}
+  ];
+
+  terms = [
+    {k:'訂單項目', d:'一筆廣告「實際怎麼投」的設定，也是系統決定要不要放的最小單位。'},
+    {k:'訂單', d:'一筆廣告合作的「資料夾」——記錄是哪個客戶、公司裡誰負責。一個訂單裡可以放很多個訂單項目。'},
+    {k:'保證型', d:'事先談好、答應一定要讓多少人看到的廣告，會優先處理。'},
+    {k:'包檔／贊助', d:'買下某段時間、某個位置的（幾乎）全部曝光，最優先、通常也最貴。'},
+    {k:'保量', d:'答應客戶一定要投滿多少曝光量的直售檔；投不滿要負責。'},
+    {k:'程式化保證 PG', d:'Programmatic Guaranteed：用自動化流程談成的保量交易——量和價都先講定，但走程式化管道成交。'},
+    {k:'優先交易', d:'Preferred Deal：給特定買家一個談好的固定價，讓他優先看貨、先出手，但不一定要買。'},
+    {k:'優先查看 First Look', d:'讓某個買家「比別人先看到、先有機會出手」的權利。'},
+    {k:'PMP 私人競價', d:'Private Auction：只邀請特定買家參加的競標。'},
+    {k:'公開競價', d:'Open Auction：誰都能參加、價高者得的即時競標，是 Ad Exchange 的主力。'},
+    {k:'Open Bidding', d:'Google 幫你辦的線上競標，讓外面的買家一起來搶你的廣告位置。'},
+    {k:'Ad Exchange', d:'Google 的廣告拍賣市場，是公開競價的主要來源之一。'},
+    {k:'聯播網', d:'Ad Network：幫你把廣告賣給一堆廣告主的中間商；接進來後當成一個「買家」一起競價。'},
+    {k:'產量群組', d:'Yield group：把一個位置開放給多個外部買家同時競價的設定。'},
+    {k:'統一定價規則／底價', d:'你設的「最低售價」，競價低於這個價就不賣，用來保護收益、避免位置被賤賣。'},
+    {k:'動態分配', d:'系統把「當場競標出的價」跟「事先談好的保證型」放一起比，誰讓你賺更多就放誰。'},
+    {k:'非保證', d:'沒有答應數量、純粹比價格的廣告，出價高的才會被放上去。'},
+    {k:'eCPM', d:'每被看到一千次，平均能賺多少錢。用來比較哪個廣告、哪一層比較划算。'},
+    {k:'CPM', d:'一種算錢方式：廣告每被看到一千次，客戶付多少。'},
+    {k:'填充率', d:'有機會放廣告的位置裡，真的成功放出廣告的比例。越高代表空著的位置越少。'},
+    {k:'GPT', d:'貼在網站上的一小段程式碼，網頁一打開，它就負責去要一個廣告來放。'},
+    {k:'Header Bidding', d:'網頁打開時，先讓好幾個買家同時出價，再把最高價拿去跟系統比。'},
+    {k:'第一方資料', d:'你自己直接蒐集到的讀者資訊（像會員資料、瀏覽紀錄），不是跟別人買來的。'},
+    {k:'PPID', d:'用你自己給讀者的編號來認人，就算沒有 cookie，也能避免同一個人一直看到同一則廣告。'}
+  ];
+
+  groups = [
+    {key:'basic',   title:'上架與投放',              desc:'最常做的：把廣告投上去、查為什麼沒出現', color:'#1A73E8', titles:['上一檔新廣告','廣告怎麼沒出現？']},
+    {key:'direct',  title:'直售保量（跟客戶談好的）', desc:'答應好量與價的檔次：包檔、保量、PG、PMP', color:'#188038', titles:['談一筆保量的直售檔（包檔／保量）','設定程式化保證（PG）交易','設定 PMP／優先交易']},
+    {key:'auction', title:'競價變現（讓大家來搶）',   desc:'開放外部買家競價，把空位賣到最好的價',   color:'#B06000', titles:['設定公開競價（Ad Exchange）','接入聯播網（Ad Network）一起搶','搞懂誰在搶我的廣告位置']},
+    {key:'report',  title:'報表與把關',              desc:'看賺多少、擋掉不想要的廣告',            color:'#9334E6', titles:['月底交報表','擋掉不想要的廣告']},
+    {key:'account', title:'受眾與帳號',              desc:'整理讀者群、管理同事權限',              color:'#5F6368', titles:['把一群讀者賣給客戶','幫新同事開帳號']}
+  ];
+
+  state = { tab:'tasks', w:1024, openTask:0, sheetId:null, query:'', backSel:'delivery', backOpen:false, stackOpen:true };
+
+  get menuById(){ const m={}; this.menus.forEach(x=>m[x.id]=x); return m; }
+
+  componentDidMount(){
+    this._onResize = ()=>{ if(Math.abs(window.innerWidth - this.state.w) > 2) this.setState({ w: window.innerWidth }); };
+    window.addEventListener('resize', this._onResize);
+    this.setState({ w: window.innerWidth });
+  }
+  componentWillUnmount(){ window.removeEventListener('resize', this._onResize); }
+
+  setTab(t){ this.setState({ tab:t }); window.scrollTo({top:0}); }
+  toggle(i){ this.setState(s=>({ openTask: s.openTask===i ? -1 : i })); }
+  openMenu(id){
+    if(id==='backend-overview'){ this.setState({ tab:'arena' }); window.scrollTo({top:0}); return; }
+    if(this.menuById[id]) this.setState({ sheetId:id });
+  }
+  closeSheet(){ this.setState({ sheetId:null }); }
+  onQuery(e){ this.setState({ query: e.target.value }); }
+  clearQuery(){ this.setState({ query:'' }); }
+  selectBack(id){ this.setState({ backSel:id, backOpen:true }); window.scrollTo({top:0}); }
+  backToList(){ this.setState({ backOpen:false }); }
+  toggleStack(){ this.setState(s=>({ stackOpen:!s.stackOpen })); }
+
+  cellEl(cell, key){
+    const h=(t,p,...c)=>React.createElement(t,p,...c);
+    const base={ whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' };
+    if(typeof cell==='string') return h('span',{key,style:base}, cell);
+    if(cell.l) return h('span',{key,style:{...base,color:'#1A73E8'}}, cell.l);
+    if(cell.c){ const cc=this.chipColors[cell.k]||this.chipColors.x; return h('span',{key,style:base}, h('span',{style:{display:'inline-block',fontSize:'.72rem',padding:'3px 9px',borderRadius:'999px',fontWeight:500,background:cc.bg,color:cc.c}}, cell.c)); }
+    if(cell.p!=null) return h('span',{key,style:{display:'flex',alignItems:'center',gap:'8px'}}, h('span',{style:{flex:1,height:'6px',background:'#E8EAED',borderRadius:'3px',overflow:'hidden',minWidth:'26px'}}, h('span',{style:{display:'block',height:'100%',width:cell.p+'%',background:'#1A73E8'}})), h('b',{style:{fontSize:'.72rem',color:'#5F6368',fontWeight:500}}, cell.p+'%'));
+    return h('span',{key},'');
+  }
+  buildScreenEl(menu){
+    const h=(t,p,...c)=>React.createElement(t,p,...c);
+    const cap = h('div',{style:{fontSize:'.76rem',color:'#5F6368',marginBottom:'8px',fontWeight:500}}, '🖥️ 後台畫面（示意）');
+    if(menu.screen==='reports'){
+      const m=[{k:'今天賺的錢',v:'NT$ 128,540',d:'▲ 6.2%'},{k:'廣告被看到',v:'324 萬次',d:'▲ 2.1%'},{k:'位置有放到廣告',v:'92%',d:'▲ 0.8%'},{k:'平均每千次賺',v:'NT$ 39.6',d:'▲ 3.4%'}];
+      const bars=[55,60,48,72,66,80,74];
+      return h('div',null, cap,
+        h('div',{style:{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'10px',marginBottom:'10px'}}, ...m.map((x,i)=>h('div',{key:i,style:{background:'#fff',border:'1px solid #DADCE0',borderRadius:'10px',padding:'13px 14px'}}, h('div',{style:{fontSize:'.74rem',color:'#5F6368'}},x.k), h('div',{style:{fontSize:'1.3rem',fontWeight:700,marginTop:'3px'}},x.v), h('div',{style:{fontSize:'.72rem',color:'#188038',marginTop:'2px'}},x.d)))),
+        h('div',{style:{display:'flex',alignItems:'flex-end',gap:'6px',height:'72px',background:'#fff',border:'1px solid #DADCE0',borderRadius:'10px',padding:'12px 14px'}}, ...bars.map((b,i)=>h('span',{key:i,style:{flex:1,background:i===bars.length-1?'#1A73E8':'#E8F0FE',borderRadius:'3px 3px 0 0',height:b+'%'}})))
+      );
+    }
+    const s=this.screens[menu.screen]; if(!s) return h('div',null);
+    return h('div',null, cap,
+      h('div',{style:{background:'#fff',border:'1px solid #DADCE0',borderRadius:'10px',overflow:'hidden',boxShadow:'0 1px 3px rgba(60,64,67,.1)'}},
+        h('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between',gap:'10px',padding:'12px 16px',borderBottom:'1px solid #E8EAED'}},
+          h('div',{style:{fontWeight:500,fontSize:'.98rem'}}, s.title),
+          h('div',{style:{display:'flex',gap:'8px',alignItems:'center'}},
+            h('div',{style:{fontSize:'.78rem',color:'#5F6368',border:'1px solid #DADCE0',borderRadius:'8px',padding:'6px 10px',whiteSpace:'nowrap'}}, '🔍 搜尋'),
+            h('div',{style:{background:'#1A73E8',color:'#fff',borderRadius:'8px',padding:'7px 12px',fontWeight:500,fontSize:'.82rem',whiteSpace:'nowrap'}}, s.btn)
+          )
+        ),
+        h('div',{style:{overflowX:'auto'}},
+          h('div',{style:{display:'grid',gridTemplateColumns:s.grid,gap:'12px',padding:'11px 16px',background:'#F8F9FB',color:'#5F6368',fontSize:'.78rem',fontWeight:500,borderBottom:'1px solid #E8EAED',minWidth:'460px'}}, ...s.cols.map((c,i)=>h('span',{key:i},c))),
+          ...s.rows.map((r,ri)=>h('div',{key:ri,style:{display:'grid',gridTemplateColumns:s.grid,gap:'12px',padding:'12px 16px',fontSize:'.86rem',borderBottom:ri<s.rows.length-1?'1px solid #F1F3F4':'none',alignItems:'center',minWidth:'460px'}}, ...r.map((cell,ci)=>this.cellEl(cell,ci))))
+        )
+      )
+    );
+  }
+
+  renderVals(){
+    const S=this.state, mById=this.menuById;
+    const A=this.props.accent || '#1A73E8';
+    const showMetaphor = this.props.showMetaphor ?? true;
+    const desktop = S.w >= 900;
+
+    const shellStyle={ width:'100%', maxWidth: desktop?'1200px':'520px', minHeight:'100vh', background:'#F1F3F4', display:'flex', flexDirection:'column', boxShadow:'0 0 40px rgba(0,0,0,.10)' };
+    const headRowStyle={ display:'flex', alignItems:'center', gap:'12px', padding: desktop?'14px 28px':'13px 18px' };
+    const tabRowStyle={ display:'flex', flexWrap:'wrap', gap:'8px', padding: desktop?'0 28px 12px':'0 14px 12px' };
+    const pill=(active)=>({ padding:'9px 18px', borderRadius:'999px', border:'1px solid '+(active?A:'#DADCE0'), background: active? A : '#fff', color: active?'#fff':'#3C4043', fontWeight:600, fontSize:'.92rem', cursor:'pointer', whiteSpace:'nowrap' });
+    const contentPadStyle={ padding: desktop?'24px 28px 48px':'16px 14px 44px' };
+    const isBackend = S.tab==='backend';
+    const contentWrapStyle={ maxWidth: desktop ? (isBackend?'100%':'760px') : '100%', margin:'0 auto' };
+
+    // tasks
+    const tagColors={ '常用':'#1A73E8','直售':'#188038','程式化':'#9334E6','競價':'#B06000','觀念':'#7B61FF','排查':'#C5221F','報表':'#188038','把關':'#B06000','資料':'#7B61FF','權限':'#5F6368' };
+    const tasksView=this.tasks.map((t,i)=>{
+      const tc=tagColors[t.tag]||'#5F6368';
+      return {
+        title:t.title, sub:t.sub, tag:t.tag,
+        tagStyle:{ flex:'0 0 auto', fontSize:'.68rem', fontWeight:700, color:tc, background:tc+'1A', borderRadius:'6px', padding:'4px 8px', whiteSpace:'nowrap' },
+        onToggle:()=>this.toggle(i),
+        chevStyle:{ transition:'transform .2s', transform:S.openTask===i?'rotate(180deg)':'none', color:'#5F6368', flex:'0 0 auto' },
+        bodyStyle:{ overflow:'hidden', maxHeight:S.openTask===i?'1600px':'0', transition:'max-height .35s ease' },
+        steps:t.steps.map((st,si)=>{
+          const c=(mById[st.m]||{}).c || '#5F6368';
+          return { n:si+1, w:st.w, label:st.label, showLine: si!==t.steps.length-1, onMenu:()=>this.openMenu(st.m),
+            numStyle:{ width:'28px',height:'28px',borderRadius:'50%',background:c,color:'#fff',display:'grid',placeItems:'center',fontWeight:700,fontSize:'.82rem',flex:'0 0 auto' },
+            chipStyle:{ display:'inline-flex',alignItems:'center',gap:'8px',padding:'7px 13px',borderRadius:'999px',border:'none',cursor:'pointer',background:c+'1F',color:'#202124',fontSize:'.9rem',fontWeight:600 },
+            dotStyle:{ width:'8px',height:'8px',borderRadius:'50%',background:c,flex:'0 0 auto' } };
+        })
+      };
+    });
+
+    // task groups
+    const gHead=(c)=>({ margin:'0 2px 10px', paddingLeft:'12px', borderLeft:'3px solid '+c });
+    const gTitle={ fontFamily:"'Noto Sans TC'", fontWeight:800, fontSize:'1.1rem', color:'#202124' };
+    const usedT={};
+    const groupsView=this.groups.map(g=>{
+      const ts=tasksView.filter(tv=>g.titles.indexOf(tv.title)>=0);
+      ts.forEach(t=>{usedT[t.title]=1;});
+      return { title:g.title, desc:g.desc, tasks:ts, headWrapStyle:gHead(g.color), titleStyle:gTitle };
+    }).filter(g=>g.tasks.length);
+    const restT=tasksView.filter(tv=>!usedT[tv.title]);
+    if(restT.length) groupsView.push({ title:'其他', desc:'', tasks:restT, headWrapStyle:gHead('#9AA0A6'), titleStyle:gTitle });
+
+    // glossary
+    const query=S.query.trim().toLowerCase();
+    const termsView=this.terms.filter(t=> !query || t.k.toLowerCase().includes(query) || t.d.toLowerCase().includes(query));
+    const glossGridStyle={ display:'grid', gridTemplateColumns: desktop?'1fr 1fr':'1fr', gap:'10px' };
+
+    // backend
+    const backItems=this.menus.map(m=>({id:m.id, zh:m.zh, en:m.en, c:m.c})).map(it=>{
+      const active=S.backSel===it.id;
+      const c=it.c;
+      return { id:it.id, zh:it.zh, en:it.en, onSelect:()=>this.selectBack(it.id),
+        rowStyle:{ display:'flex',alignItems:'center',gap:'10px',width:'100%',border:'none',background: active?A+'14':'none',borderRadius:'10px',padding:'11px 12px',cursor:'pointer',color: active?A:'#3C4043',fontWeight: active?700:500,fontSize:'.96rem' },
+        dotStyle:{ width:'9px',height:'9px',borderRadius:'50%',background:c,flex:'0 0 auto' },
+        enStyle:{ fontSize:'.7rem',color:'#9AA0A6',fontWeight:400,whiteSpace:'nowrap' } };
+    });
+    const mSel = mById[S.backSel] || this.menus[0];
+    const backDetail = { isMenu:true, zh:mSel.zh, en:mSel.en, one:mSel.one, subs:mSel.subs, screenEl:this.buildScreenEl(mSel), dotStyle:{ width:'14px',height:'14px',borderRadius:'50%',background:mSel.c,flex:'0 0 auto' } };
+    const stack=this.stack.map((tr,i)=>({ rank:tr.rank, title:tr.title, en:tr.en, desc:tr.desc, showLine:i!==this.stack.length-1,
+      rankStyle:{ width:'30px',height:'30px',borderRadius:'9px',background:tr.color,color:'#fff',display:'grid',placeItems:'center',fontWeight:700,fontSize:'.9rem',flex:'0 0 auto' },
+      tags:tr.tags.map(t=>({ label:t, style:{ fontSize:'.74rem',fontWeight:500,color:tr.color,background:tr.color+'18',borderRadius:'999px',padding:'4px 10px' } })) }));
+
+    const sm=S.sheetId?mById[S.sheetId]:null;
+    const sheet=sm?{ zh:sm.zh, en:sm.en, one:sm.one, dotStyle:{ width:'14px',height:'14px',borderRadius:'50%',background:sm.c,flex:'0 0 auto' } }:{};
+    const sheetStyle={ position:'fixed', bottom:'0', left:'50%', transform:'translateX(-50%)', width:'100%', maxWidth: desktop?'520px':'520px', background:'#fff', borderRadius:'20px 20px 0 0', zIndex:50, padding:'8px 22px 30px', animation:'sheetUp .26s ease' };
+
+    return {
+      shellStyle, headRowStyle, tabRowStyle, contentPadStyle, contentWrapStyle,
+      isTasks:S.tab==='tasks', isBackend, isArena:S.tab==='arena', isGloss:S.tab==='gloss',
+      onTasks:()=>this.setTab('tasks'), onBackend:()=>this.setTab('backend'), onArena:()=>this.setTab('arena'), onGloss:()=>this.setTab('gloss'),
+      pillTasks:pill(S.tab==='tasks'), pillBackend:pill(isBackend), pillArena:pill(S.tab==='arena'), pillGloss:pill(S.tab==='gloss'),
+      showMetaphor, tasksView, groupsView,
+      termsView, query:S.query, onQuery:(e)=>this.onQuery(e), clearQuery:()=>this.clearQuery(), hasQuery:S.query.trim().length>0, noResults:termsView.length===0, glossGridStyle,
+      backGridStyle: desktop?{ display:'grid', gridTemplateColumns:'240px 1fr', gap:'22px', alignItems:'start' }:{},
+      sidebarStyle:{ background:'#fff', border:'1px solid #E8EAED', borderRadius:'14px', padding:'8px', display:'flex', flexDirection:'column', gap:'2px', position: desktop?'sticky':'static', top: desktop?'128px':'auto' },
+      backItems, backDetail, stack,
+      onToggleStack:()=>this.toggleStack(),
+      stackChevStyle:{ transition:'transform .2s', transform:S.stackOpen?'rotate(180deg)':'none', flex:'0 0 auto' },
+      stackBodyStyle:{ overflow:'hidden', maxHeight:S.stackOpen?'2200px':'0', transition:'max-height .35s ease' },
+      backShowList: desktop || !S.backOpen,
+      backShowDetail: desktop || S.backOpen,
+      backOnMobile: !desktop,
+      onBackToList:()=>this.backToList(),
+      sheetOpen:!!sm, sheet, closeSheet:()=>this.closeSheet(), sheetStyle
+    };
+  }
+}
+</script>
+</body>
+</html>
